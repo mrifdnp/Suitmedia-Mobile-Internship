@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId = "com.example.ispalindrome"
         minSdk = 21
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
         val reqresApiKey = project.findProperty("REQRES_API_KEY") as String? ?: ""
