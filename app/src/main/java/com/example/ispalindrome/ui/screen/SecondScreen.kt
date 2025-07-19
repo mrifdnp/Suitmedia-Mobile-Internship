@@ -12,16 +12,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-
+import com.example.ispalindrome.viewmodel.SharedViewModel
+import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.getValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SecondScreen(
     userName: String,
-    selectedUserName: String,
+    sharedViewModel: SharedViewModel,
     onChooseUserClick: () -> Unit,
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit
 ) {
+    val selectedUserName by sharedViewModel.selectedUserName.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -41,15 +46,11 @@ fun SecondScreen(
                 .padding(horizontal = 24.dp, vertical = 16.dp)
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text(
-                        text = "Welcome",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+                    Text(text = "Welcome", style = MaterialTheme.typography.bodyMedium)
                     Text(
                         text = userName,
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)

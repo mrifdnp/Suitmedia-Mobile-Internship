@@ -11,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.*
 import com.example.ispalindrome.data.services.response.User
 import com.example.ispalindrome.ui.screen.FirstScreen
@@ -20,7 +21,7 @@ import com.example.ispalindrome.ui.theme.IsPalindromeTheme
 import androidx.navigation.compose.composable
 
 import androidx.navigation.navArgument
-
+import com.example.ispalindrome.viewmodel.SharedViewModel
 
 
 class MainActivity : ComponentActivity() {
@@ -42,10 +43,10 @@ class MainActivity : ComponentActivity() {
 fun MainApp() {
     val navController = rememberNavController()
     val context = LocalContext.current
+    val sharedViewModel: SharedViewModel = viewModel()
 
     var name by remember { mutableStateOf("") }
     var sentence by remember { mutableStateOf("") }
-    var selectedUser by remember { mutableStateOf<User?>(null) }
 
     NavHost(navController = navController, startDestination = "first") {
         composable("first") {
@@ -67,49 +68,35 @@ fun MainApp() {
                     if (name.isBlank()) {
                         Toast.makeText(context, "Please enter your name first", Toast.LENGTH_SHORT).show()
                     } else {
-                        navController.navigate("second_screen/${name}")
+                        navController.navigate("second_screen/$name")
                     }
-
-
-        }
+                }
             )
         }
+
         composable(
-            route = "second_screen/{userName}?selectedUserName={selectedUserName}",
-            arguments = listOf(
-                navArgument("userName") { defaultValue = "" },
-                navArgument("selectedUserName") { defaultValue = "" }
-            )
+            route = "second_screen/{userName}",
+            arguments = listOf(navArgument("userName") { defaultValue = "" })
         ) { backStackEntry ->
             val userName = backStackEntry.arguments?.getString("userName") ?: ""
-            val selectedUserName = backStackEntry.arguments?.getString("selectedUserName") ?: ""
 
             SecondScreen(
                 userName = userName,
-                selectedUserName = selectedUserName,
-                onChooseUserClick = {
-                    navController.navigate("third")
-                },
-                onBackClick = {
-                    navController.popBackStack()
-                }
+                sharedViewModel = sharedViewModel,
+                onChooseUserClick = { navController.navigate("third") },
+                onBackClick = { navController.popBackStack() }
             )
         }
 
         composable("third") {
             ThirdScreen(
                 onUserClick = { user ->
-                    selectedUser = user
+                    sharedViewModel.setSelectedUserName("${user.firstName} ${user.lastName}")
                     navController.popBackStack()
-                    navController.navigate("second_screen/$name?selectedUserName=${user.firstName} ${user.lastName}")
                 },
-                onBackClick = {
-                    navController.popBackStack()
-                }
+                onBackClick = { navController.popBackStack() }
             )
         }
-
-
-
     }
 }
+
