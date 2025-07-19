@@ -46,7 +46,7 @@ fun FirstScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = R.drawable.background),
+                painter = painterResource(id = R.drawable.ic_photo),
                 contentDescription = "Profile Image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -56,29 +56,61 @@ fun FirstScreen(
 
             Spacer(modifier = Modifier.height(58.dp))
 
-            OutlinedTextField(
+            TextField(
                 value = name,
                 onValueChange = onNameChange,
-                placeholder = { Text("Name") },
+                placeholder = {
+                    Text(
+                        text = "Name",
+                        color = Color(0x5C686777)
+                    )
+                },
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .background(Color.White, RoundedCornerShape(12.dp)),
                 shape = RoundedCornerShape(12.dp),
                 singleLine = true,
-                colors = TextFieldDefaults.colors()
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.White,
+                    focusedContainerColor = Color.White,
+                    disabledContainerColor = Color.White,
+                    errorContainerColor = Color.White,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black
+                )
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            OutlinedTextField(
+            TextField(
                 value = sentence,
                 onValueChange = onSentenceChange,
-                placeholder = { Text("Palindrome") },
+                placeholder = {
+                    Text(
+                        text = "Palindrome",
+                        color = Color(0x5C686777)  // 36% opacity
+                    )
+                }
+                ,
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .background(Color.White, RoundedCornerShape(12.dp)),
                 shape = RoundedCornerShape(12.dp),
                 singleLine = true,
-                colors = TextFieldDefaults.colors()
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.White,
+                    focusedContainerColor = Color.White,
+                    disabledContainerColor = Color.White,
+                    errorContainerColor = Color.White,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black
+                )
             )
+
 
             Spacer(modifier = Modifier.height(58.dp))
 
@@ -88,18 +120,30 @@ fun FirstScreen(
                     showDialog = true
                     onCheckClick()
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(41.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF2B637B)
+                )
             ) {
-                Text("CHECK")
+                Text("CHECK", color = Color.White)
             }
 
-            Spacer(modifier = Modifier.height(14.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             Button(
                 onClick = onNextClick,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(41.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF2B637B)
+                )
             ) {
-                Text("NEXT")
+                Text("NEXT", color = Color.White)
             }
         }
 
